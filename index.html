@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f9dce8">
+<title>Uma surpresa mágica para Suzane 🌷</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap');
+  
+  :root {
+    --pink: #f8dce8;
+    --pink2: #f4c7da;
+    --ink: #593b4a;
+    --rose: #e95d83;
+    --gold: #f5d58a;
+  }
+  
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; font-family: 'DM Sans', sans-serif; }
+  body { min-height: 100vh; overflow-x: hidden; background: var(--pink); color: var(--ink); }
+  button { font: inherit; }
+
+  /* Trail Effect */
+  .cursor-sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 14px;
+    animation: fadeSparkle 1s ease-out forwards;
+  }
+  @keyframes fadeSparkle {
+    0% { transform: scale(1) translateY(0); opacity: 1; }
+    100% { transform: scale(0.3) translateY(-25px); opacity: 0; }
+  }
+
+  .scene { min-height: 100vh; display: none; position: relative; overflow: hidden; }
+  .scene.active { display: flex; align-items: center; justify-content: center; animation: sceneIn 1s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes sceneIn { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: scale(1); } }
+  
+  .pink-scene {
+    background:
+      radial-gradient(circle at 12% 18%, #fff8fb 0 5%, transparent 25%),
+      radial-gradient(circle at 88% 78%, #f2bfd4 0 4%, transparent 28%),
+      linear-gradient(145deg, #fff0f5 0%, #f8dce8 48%, #f5cbdc 100%);
+  }
+  .pink-scene:before, .pink-scene:after { content: ""; position: absolute; border: 1px solid #ffffffaa; border-radius: 50%; width: 420px; height: 420px; pointer-events: none; }
+  .pink-scene:before { top: -260px; right: -120px; }
+  .pink-scene:after { bottom: -300px; left: -120px; width: 520px; height: 520px; }
+  
+  .content { position: relative; z-index: 2; width: min(92vw, 560px); padding: 34px 24px 40px; text-align: center; }
+  .eyebrow { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; font-weight: 700; color: #b76c89; margin: 0 0 13px; }
+  h1, h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; }
+  h1 { font-size: clamp(2.3rem, 8vw, 4.2rem); line-height: 1.05; margin: 0; color: #74485c; }
+  
+  .intro { font-size: clamp(1rem, 3.5vw, 1.15rem); line-height: 1.7; max-width: 420px; margin: 18px auto 24px; color: #805d6d; }
+  
+  .bear-wrap { width: min(66vw, 275px); height: 245px; margin: 0 auto 12px; position: relative; animation: bob 3.5s ease-in-out infinite; filter: drop-shadow(0 16px 20px #9e607528); }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1.5deg); } }
+  .bear-wrap svg { width: 100%; height: 100%; overflow: visible; }
+  
+  .cta {
+    border: 0; border-radius: 999px; padding: 16px 32px;
+    background: linear-gradient(135deg, #e66d95, #cf4f7c);
+    color: white; font-weight: 700; letter-spacing: .03em;
+    box-shadow: 0 10px 25px #c64c7840; cursor: pointer;
+    transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .cta:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 16px 30px #c64c7860; }
+  .cta:active { transform: translateY(-1px) scale(0.98); }
+  
+  .tiny-note { font-size: .8rem; color: #a16e83; margin-top: 18px; font-style: italic; }
+  
+  .float { position: absolute; pointer-events: none; opacity: .55; animation: floatUp linear infinite; }
+  @keyframes floatUp {
+    from { transform: translateY(20px) rotate(0deg); opacity: 0; }
+    20% { opacity: .7; }
+    to { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Rose scene */
+  .rose-scene { background: radial-gradient(ellipse at 50% 40%, #1e3332 0%, #0d171a 50%, #050a0e 100%); color: #fff5ef; }
+  .stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .star { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #ffe7a8; box-shadow: 0 0 10px 2px #f7d58baa; animation: twinkle 2.5s ease-in-out infinite alternate; }
+  @keyframes twinkle { from { opacity: .15; transform: scale(.6); } to { opacity: 1; transform: scale(1.6); } }
+
+  .music-btn {
+    position: absolute; top: 20px; right: 20px; z-index: 10;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #f7d58b; border-radius: 50%; width: 40px; height: 40px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(5px); transition: all .3s;
+  }
+  .music-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.1); }
+
+  .rose-content { width: min(94vw, 600px); padding: 35px 22px 48px; text-align: center; position: relative; z-index: 2; }
+  .rose-content .eyebrow { color: #d8bd86; }
+  .rose-content h2 { font-size: clamp(2.1rem, 7vw, 3.4rem); line-height: 1.1; margin: 0; color: #fff2df; text-shadow: 0 0 20px rgba(255, 242, 223, 0.2); }
+  .rose-lead { color: #d9d5c9; line-height: 1.65; margin: 12px auto 6px; max-width: 420px; }
+
+  /* Dome & Animated Rose */
+  .dome-button { display: block; position: relative; width: min(76vw, 340px); height: 340px; margin: 5px auto 0; border: 0; background: transparent; cursor: pointer; filter: drop-shadow(0 20px 30px #000000aa); transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  .dome-button:hover { transform: translateY(-7px) scale(1.02); }
+  
+  .dome {
+    position: absolute; left: 50%; top: 28px; transform: translateX(-50%);
+    width: 220px; height: 250px; border: 2px solid rgba(216, 231, 229, 0.7); border-bottom: 0;
+    border-radius: 115px 115px 22px 22px;
+    background: linear-gradient(125deg, rgba(255,255,255,0.25) 0%, rgba(223,250,255,0.05) 35%, rgba(255,255,255,0.18) 60%, rgba(155,197,197,0.2) 100%);
+    box-shadow: inset 10px 0 20px rgba(255,255,255,0.2), inset -10px 0 25px rgba(166,214,214,0.25), 0 0 35px rgba(180,229,229,0.25);
+    overflow: hidden; backdrop-filter: blur(1px);
+  }
+  .dome:before { content: ""; position: absolute; left: 22px; top: 15px; width: 38px; height: 180px; border-radius: 50%; background: linear-gradient(90deg, rgba(255,255,255,0.45), transparent); filter: blur(4px); transform: rotate(8deg); }
+  .dome:after { content: ""; position: absolute; right: 18px; top: 35px; width: 10px; height: 90px; border-radius: 50%; background: rgba(255,255,255,0.3); filter: blur(3px); }
+  
+  .base { position: absolute; left: 50%; top: 273px; transform: translateX(-50%); width: 255px; height: 28px; border-radius: 50%; background: linear-gradient(#e9d6b7, #856d50 48%, #c5b291); box-shadow: 0 10px 25px #000000cc; }
+  .base:after { content: ""; position: absolute; left: 15px; right: 15px; top: 5px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+
+  .rose-art { position: absolute; width: 185px; height: 220px; left: 50%; top: 53px; transform: translateX(-50%); overflow: visible; animation: pulseRose 4s ease-in-out infinite alternate; }
+  @keyframes pulseRose {
+    0% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 12px rgba(233, 74, 97, 0.4)); }
+    100% { transform: translateX(-50%) scale(1.03); filter: drop-shadow(0 0 24px rgba(233, 74, 97, 0.8)); }
+  }
+
+  .tap-hint { font-size: .78rem; color: #c6c2b6; letter-spacing: .15em; text-transform: uppercase; margin-top: 4px; }
+  
+  /* Message card */
+  .message-card {
+    max-width: 470px; margin: 22px auto 0; padding: 0 24px; max-height: 0; opacity: 0; overflow: hidden;
+    transition: max-height 1s cubic-bezier(0.16, 1, 0.3, 1), opacity .8s ease, padding .8s ease, transform .8s ease;
+    transform: translateY(20px);
+    background: linear-gradient(135deg, #fffaf2 0%, #fdf3e3 100%);
+    border: 1px solid #f3dca9; border-radius: 22px; color: #514239;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 30px rgba(245, 213, 138, 0.2);
+  }
+  .message-card.show { max-height: 400px; opacity: 1; padding: 26px 24px; transform: translateY(0); }
+  .message-card h3 { font: 600 1.6rem 'Playfair Display', Georgia, serif; margin: 0 0 12px; color: #9b4c60; }
+  .message-card p { line-height: 1.75; margin: 0; font-size: 1rem; }
+  .signature { margin-top: 14px !important; color: #8e3b52; font-family: 'Caveat', cursive; font-size: 1.6rem !important; font-weight: 600; }
+  
+  .restart { margin-top: 24px; background: transparent; border: 1px solid #d9c18e; color: #e9d9b9; border-radius: 99px; padding: 10px 22px; cursor: pointer; transition: all .3s; }
+  .restart:hover { background: rgba(255,255,255,0.12); transform: scale(1.05); }
+
+  .petal { position: absolute; top: -30px; width: 14px; height: 19px; border-radius: 80% 0 80% 0; background: linear-gradient(135deg, #f7b3c5, #d75b80); opacity: .7; animation: fall linear forwards; pointer-events: none; }
+  @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: 0; } }
+</style>
+</head>
+<body>
+
+<section class="scene pink-scene active" id="welcome">
+  <div class="content">
+    <p class="eyebrow">um carinho em forma de surpresa</p>
+    <div class="bear-wrap" aria-hidden="true">
+      <svg viewBox="0 0 280 250" role="img" aria-label="Ursinho segurando um buquê de flores">
+        <ellipse cx="140" cy="224" rx="76" ry="12" fill="#b77b91" opacity=".16"/>
+        <circle cx="91" cy="58" r="31" fill="#b77a55"/><circle cx="189" cy="58" r="31" fill="#b77a55"/>
+        <circle cx="91" cy="58" r="17" fill="#e9b79c"/><circle cx="189" cy="58" r="17" fill="#e9b79c"/>
+        <ellipse cx="140" cy="166" rx="67" ry="62" fill="#bd865f"/>
+        <ellipse cx="140" cy="102" rx="76" ry="69" fill="#c9926b"/>
+        <ellipse cx="140" cy="178" rx="39" ry="35" fill="#f0d1b5"/>
+        <ellipse cx="83" cy="177" rx="24" ry="32" fill="#c9926b" transform="rotate(-28 83 177)"/>
+        <ellipse cx="197" cy="177" rx="24" ry="32" fill="#c9926b" transform="rotate(28 197 177)"/>
+        <ellipse cx="105" cy="218" rx="30" ry="17" fill="#b77a55"/>
+        <ellipse cx="175" cy="218" rx="30" ry="17" fill="#b77a55"/>
+        <ellipse cx="113" cy="103" rx="5" ry="7" fill="#4d352d"/><ellipse cx="167" cy="103" rx="5" ry="7" fill="#4d352d"/>
+        <ellipse cx="99" cy="122" rx="11" ry="6" fill="#e99c9d" opacity=".65"/><ellipse cx="181" cy="122" rx="11" ry="6" fill="#e99c9d" opacity=".65"/>
+        <ellipse cx="140" cy="126" rx="17" ry="12" fill="#f4ddc9"/>
+        <path d="M135 121 Q140 116 145 121 Q144 128 140 128 Q136 128 135 121" fill="#654337"/>
+        <path d="M140 129 Q135 136 129 131 M140 129 Q145 136 151 131" fill="none" stroke="#654337" stroke-width="2" stroke-linecap="round"/>
+        <path d="M120 177 L139 113 M134 180 L154 115 M147 180 L171 128" stroke="#547c58" stroke-width="4" stroke-linecap="round"/>
+        <path d="M132 157 Q113 145 111 158 Q122 169 132 157 M148 151 Q164 137 171 148 Q166 161 148 151" fill="#79a879"/>
+        <g transform="translate(111 91)"><circle r="9" fill="#f7b7c8"/><circle cx="-9" cy="0" r="8" fill="#f4a6bd"/><circle cx="9" cy="0" r="8" fill="#f4a6bd"/><circle cy="-9" r="8" fill="#f8c5d1"/><circle cy="9" r="8" fill="#f8c5d1"/><circle r="5" fill="#f5d77d"/></g>
+        <g transform="translate(154 91)"><circle r="9" fill="#f7b7c8"/><circle cx="-9" cy="0" r="8" fill="#f4a6bd"/><circle cx="9" cy="0" r="8" fill="#f4a6bd"/><circle cy="-9" r="8" fill="#f8c5d1"/><circle cy="9" r="8" fill="#f8c5d1"/><circle r="5" fill="#f5d77d"/></g>
+        <g transform="translate(178 112) scale(.8)"><circle r="9" fill="#f7b7c8"/><circle cx="-9" cy="0" r="8" fill="#f4a6bd"/><circle cx="9" cy="0" r="8" fill="#f4a6bd"/><circle cy="-9" r="8" fill="#f8c5d1"/><circle cy="9" r="8" fill="#f8c5d1"/><circle r="5" fill="#f5d77d"/></g>
+        <path d="M116 178 Q140 193 164 178" fill="none" stroke="#d9a17e" stroke-width="4" stroke-linecap="round"/>
+        <path d="M127 183 Q140 194 153 183" fill="none" stroke="#e9b5bf" stroke-width="3"/>
+      </svg>
+    </div>
+    <h1>Suzane, isso é<br>para você! <span aria-hidden="true">♡</span></h1>
+    <p class="intro">Tem gente que deixa os dias mais bonitos só por existir. Hoje eu queria te lembrar de uma coisa…</p>
+    <button class="cta" id="openGift">Quero ver a surpresa <span aria-hidden="true">✿</span></button>
+    <p class="tiny-note">feito com carinho, especialmente para você</p>
+  </div>
+</section>
+
+<section class="scene rose-scene" id="gift">
+  <button class="music-btn" id="musicToggle" aria-label="Música">🎵</button>
+  <div class="stars" id="stars"></div>
+  <div class="rose-content">
+    <p class="eyebrow">um pequeno lembrete para você</p>
+    <h2>Uma flor para<br>uma pessoa especial</h2>
+    <p class="rose-lead">Algumas coisas bonitas merecem ser cuidadas. Esta aqui é uma delas. 🌹</p>
+    <button class="dome-button" id="roseButton" aria-label="Toque na rosa para abrir sua mensagem">
+      <span class="dome">
+        <svg class="rose-art" viewBox="0 0 190 230" aria-hidden="true">
+          <defs>
+            <linearGradient id="stem" x1="0" x2="1"><stop stop-color="#315c45"/><stop offset="1" stop-color="#83a36b"/></linearGradient>
+            <linearGradient id="petal" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff9b9e"/><stop offset=".48" stop-color="#d82e4d"/><stop offset="1" stop-color="#78172e"/></linearGradient>
+            <linearGradient id="leaf" x1="0" x2="1"><stop stop-color="#9ab879"/><stop offset="1" stop-color="#315d42"/></linearGradient>
+            <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <ellipse cx="95" cy="208" rx="48" ry="8" fill="#e7d0a2" opacity=".18"/>
+          <path d="M96 111 Q91 153 100 201" stroke="url(#stem)" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M96 157 Q56 127 48 151 Q58 180 96 164Z" fill="url(#leaf)"/>
+          <path d="M98 174 Q135 140 147 158 Q139 184 98 181Z" fill="url(#leaf)"/>
+          <path d="M95 153 Q71 149 54 155 M100 174 Q124 162 140 162" stroke="#c2d39b" stroke-width="1.5" fill="none" opacity=".7"/>
+          <g filter="url(#glow)">
+            <path d="M95 120 C54 119 48 91 69 72 C73 49 99 48 109 65 C135 48 158 72 143 94 C145 116 117 130 95 120Z" fill="url(#petal)"/>
+            <path d="M95 104 C70 95 77 72 94 69 C104 52 126 66 121 83 C138 93 121 112 104 112Z" fill="#e94a61"/>
+            <path d="M95 96 C89 81 104 72 113 82 C124 94 109 106 99 104 C91 102 89 94 95 88" fill="#9d1838"/>
+            <path d="M69 76 Q56 58 77 51 Q91 49 98 67 Q79 62 69 76Z" fill="#f27a84"/>
+            <path d="M109 65 Q127 45 140 62 Q147 77 128 88 Q133 69 109 65Z" fill="#ff9a9e"/>
+            <path d="M71 99 Q48 94 56 77 Q63 68 77 75 Q65 85 71 99Z" fill="#c92349"/>
+            <path d="M130 105 Q151 99 151 83 Q145 72 132 81 Q142 91 130 105Z" fill="#b51e43"/>
+          </g>
+          <path d="M78 122 Q91 132 111 123" stroke="#f7c2ad" stroke-width="2" fill="none" opacity=".55"/>
+          <circle cx="55" cy="48" r="2.5" fill="#ffe8b2"/><circle cx="145" cy="43" r="2" fill="#ffe8b2"/>
+        </svg>
+      </span>
+      <span class="base"></span>
+    </button>
+    <p class="tap-hint" id="hint">toque na rosa para ler seu recadinho ✧</p>
+    <div class="message-card" id="message">
+      <h3>Não deixe de sorrir, Suzane. ♡</h3>
+      <p>Quero que você nunca se esqueça do quanto é especial. Que não faltem motivos para sorrir, pessoas que te façam bem e momentos que aqueçam seu coração. Mesmo nos dias difíceis, não diminua a luz bonita que existe em você. Você merece coisas lindas!</p>
+      <p class="signature">Com carinho, Nandinho 🌷</p>
+    </div>
+    <button class="restart" id="restart" hidden>Ver novamente ↺</button>
+  </div>
+</section>
+
+<!-- Audio opcional suave (Web Audio Synthesizer para não depender de ficheiros externos) -->
+<script>
+  const welcome = document.getElementById('welcome');
+  const gift = document.getElementById('gift');
+  const openGift = document.getElementById('openGift');
+  const roseButton = document.getElementById('roseButton');
+  const message = document.getElementById('message');
+  const hint = document.getElementById('hint');
+  const restart = document.getElementById('restart');
+  const musicToggle = document.getElementById('musicToggle');
+
+  // Efeito de rastro (Sparkles) no rato/toque
+  let lastSparkle = 0;
+  window.addEventListener('mousemove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkle > 60) {
+      createSparkle(e.clientX, e.clientY);
+      lastSparkle = now;
+    }
+  });
+  window.addEventListener('touchmove', (e) => {
+    const now = Date.now();
+    if (now - lastSparkle > 60 && e.touches[0]) {
+      createSparkle(e.touches[0].clientX, e.touches[0].clientY);
+      lastSparkle = now;
+    }
+  });
+
+  function createSparkle(x, y) {
+    const el = document.createElement('span');
+    el.className = 'cursor-sparkle';
+    const items = ['✨', '🌸', '💖', '⭐'];
+    el.textContent = items[Math.floor(Math.random() * items.length)];
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+
+  function makeFloaties() {
+    const symbols = ['♡', '✦', '✿', '♥', '✨'];
+    for (let i = 0; i < 22; i++) {
+      const el = document.createElement('span');
+      el.className = 'float';
+      el.textContent = symbols[i % symbols.length];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.bottom = '-30px';
+      el.style.fontSize = (13 + Math.random() * 18) + 'px';
+      el.style.animationDuration = (8 + Math.random() * 10) + 's';
+      el.style.animationDelay = (-Math.random() * 14) + 's';
+      el.style.color = i % 2 ? '#d77a9c' : '#ffffff';
+      welcome.appendChild(el);
+    }
+  }
+
+  function makeStars() {
+    const holder = document.getElementById('stars');
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement('i');
+      s.className = 'star';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      s.style.animationDuration = (1.5 + Math.random() * 2.5) + 's';
+      holder.appendChild(s);
+    }
+  }
+
+  function petals() {
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('i');
+      p.className = 'petal';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (5 + Math.random() * 5) + 's';
+      p.style.animationDelay = (Math.random() * 2.5) + 's';
+      p.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+      gift.appendChild(p);
+      setTimeout(() => p.remove(), 12000);
+    }
+  }
+
+  openGift.addEventListener('click', () => {
+    welcome.classList.remove('active');
+    gift.classList.add('active');
+    petals();
+    playSoftMelody();
+  });
+
+  roseButton.addEventListener('click', () => {
+    message.classList.add('show');
+    hint.textContent = 'um carinho guardado especialmente para você';
+    restart.hidden = false;
+    petals();
+    roseButton.setAttribute('aria-label', 'Mensagem aberta');
+  });
+
+  restart.addEventListener('click', () => {
+    message.classList.remove('show');
+    hint.textContent = 'toque na rosa para ler seu recadinho ✧';
+    restart.hidden = true;
+    roseButton.setAttribute('aria-label', 'Toque na rosa para abrir sua mensagem');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Melodia gerada via Web Audio API (sem precisar de mp3 externo)
+  let audioCtx = null;
+  let isPlaying = false;
+  
+  function playSoftMelody() {
+    if (isPlaying) return;
+    try {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      isPlaying = true;
+      const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
+      let step = 0;
+      
+      function playNextNote() {
+        if (!isPlaying || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(notes[step % notes.length], audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.5);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 2.5);
+        step++;
+        setTimeout(playNextNote, 1200);
+      }
+      playNextNote();
+    } catch(e) {}
+  }
+
+  musicToggle.addEventListener('click', () => {
+    if (isPlaying) {
+      if (audioCtx) audioCtx.close();
+      isPlaying = false;
+      musicToggle.textContent = '🔇';
+    } else {
+      isPlaying = false;
+      playSoftMelody();
+      musicToggle.textContent = '🎵';
+    }
+  });
+
+  makeFloaties();
+  makeStars();
+</script>
+</body>
+</html>
